@@ -1,6 +1,16 @@
 import FeaturedBusinessCard from "./FeaturedBusinessCard";
 
-const featuredBusinesses = [
+import { ShopStatusType } from "./ShopStatus";
+
+const featuredBusinesses: Array<{
+  name: string;
+  category: string;
+  rating: number;
+  reviewCount: number;
+  image: string;
+  location: string;
+  status: ShopStatusType;
+}> = [
   {
     name: "Serenity Wellness Spa",
     category: "Hair Salon & Spa",
@@ -8,7 +18,7 @@ const featuredBusinesses = [
     reviewCount: 328,
     image: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&h=400&fit=crop",
     location: "Downtown, 0.8 mi",
-    isOpen: true,
+    status: "open",
   },
   {
     name: "Dr. Smith's Family Clinic",
@@ -17,7 +27,7 @@ const featuredBusinesses = [
     reviewCount: 156,
     image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&h=400&fit=crop",
     location: "Medical District, 1.2 mi",
-    isOpen: true,
+    status: "busy",
   },
   {
     name: "Bella Italia Ristorante",
@@ -26,7 +36,7 @@ const featuredBusinesses = [
     reviewCount: 542,
     image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=400&fit=crop",
     location: "Little Italy, 2.1 mi",
-    isOpen: false,
+    status: "closed",
   },
   {
     name: "Zen Yoga Studio",
@@ -35,7 +45,7 @@ const featuredBusinesses = [
     reviewCount: 89,
     image: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&h=400&fit=crop",
     location: "Westside, 0.5 mi",
-    isOpen: true,
+    status: "open",
   },
 ];
 

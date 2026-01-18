@@ -4,7 +4,20 @@ import { Film, Grid3X3 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
-const posts = [
+import { ShopStatusType } from "./ShopStatus";
+
+const posts: Array<{
+  id: string;
+  businessName: string;
+  businessAvatar: string;
+  category: string;
+  image: string;
+  caption: string;
+  likes: number;
+  comments: number;
+  isReel: boolean;
+  status: ShopStatusType;
+}> = [
   {
     id: "1",
     businessName: "Serenity Wellness Spa",
@@ -15,6 +28,7 @@ const posts = [
     likes: 234,
     comments: 18,
     isReel: false,
+    status: "open",
   },
   {
     id: "2",
@@ -26,6 +40,7 @@ const posts = [
     likes: 567,
     comments: 42,
     isReel: true,
+    status: "closed",
   },
   {
     id: "3",
@@ -37,6 +52,7 @@ const posts = [
     likes: 189,
     comments: 23,
     isReel: true,
+    status: "open",
   },
   {
     id: "4",
@@ -48,6 +64,7 @@ const posts = [
     likes: 98,
     comments: 12,
     isReel: false,
+    status: "busy",
   },
   {
     id: "5",
@@ -59,6 +76,7 @@ const posts = [
     likes: 145,
     comments: 31,
     isReel: false,
+    status: "open",
   },
   {
     id: "6",
@@ -70,6 +88,7 @@ const posts = [
     likes: 312,
     comments: 56,
     isReel: true,
+    status: "busy",
   },
 ];
 
