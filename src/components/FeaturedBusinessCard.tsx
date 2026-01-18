@@ -1,6 +1,6 @@
-import { Star, MapPin, Clock, Heart } from "lucide-react";
+import { Star, MapPin, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import ShopStatus, { ShopStatusType } from "./ShopStatus";
 
 interface FeaturedBusinessCardProps {
   name: string;
@@ -9,7 +9,7 @@ interface FeaturedBusinessCardProps {
   reviewCount: number;
   image: string;
   location: string;
-  isOpen: boolean;
+  status: ShopStatusType;
   delay?: number;
 }
 
@@ -20,7 +20,7 @@ const FeaturedBusinessCard = ({
   reviewCount,
   image,
   location,
-  isOpen,
+  status,
   delay = 0,
 }: FeaturedBusinessCardProps) => {
   return (
@@ -38,11 +38,8 @@ const FeaturedBusinessCard = ({
         <button className="absolute top-3 right-3 w-9 h-9 bg-card/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-card transition-colors">
           <Heart className="h-4 w-4 text-muted-foreground hover:text-primary" />
         </button>
-        <div className={cn(
-          "absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold",
-          isOpen ? "bg-category-yoga text-white" : "bg-muted text-muted-foreground"
-        )}>
-          {isOpen ? "Open Now" : "Closed"}
+        <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-card/90 backdrop-blur-sm">
+          <ShopStatus status={status} size="sm" />
         </div>
       </div>
 

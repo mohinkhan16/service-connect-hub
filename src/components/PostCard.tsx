@@ -1,6 +1,7 @@
 import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal, Play } from "lucide-react";
 import { useState } from "react";
 import EnquiryButtons from "./EnquiryButtons";
+import ShopStatus, { ShopStatusType } from "./ShopStatus";
 import { cn } from "@/lib/utils";
 
 interface PostCardProps {
@@ -13,6 +14,7 @@ interface PostCardProps {
   likes: number;
   comments: number;
   isReel?: boolean;
+  status: ShopStatusType;
   delay?: number;
 }
 
@@ -25,6 +27,7 @@ const PostCard = ({
   likes,
   comments,
   isReel = false,
+  status,
   delay = 0,
 }: PostCardProps) => {
   const [isLiked, setIsLiked] = useState(false);
@@ -39,14 +42,26 @@ const PostCard = ({
       {/* Header */}
       <div className="flex items-center justify-between p-4">
         <div className="flex items-center gap-3">
-          <img
-            src={businessAvatar}
-            alt={businessName}
-            className="w-10 h-10 rounded-full object-cover border-2 border-primary/20"
-          />
+          <div className="relative">
+            <img
+              src={businessAvatar}
+              alt={businessName}
+              className="w-10 h-10 rounded-full object-cover border-2 border-primary/20"
+            />
+            {/* Status indicator on avatar */}
+            <div className="absolute -bottom-0.5 -right-0.5 p-0.5 bg-card rounded-full">
+              <ShopStatus status={status} size="sm" showLabel={false} />
+            </div>
+          </div>
           <div>
-            <h4 className="font-semibold text-sm">{businessName}</h4>
-            <p className="text-xs text-muted-foreground">{category}</p>
+            <div className="flex items-center gap-2">
+              <h4 className="font-semibold text-sm">{businessName}</h4>
+            </div>
+            <div className="flex items-center gap-2">
+              <p className="text-xs text-muted-foreground">{category}</p>
+              <span className="text-xs text-muted-foreground">•</span>
+              <ShopStatus status={status} size="sm" />
+            </div>
           </div>
         </div>
         <button className="p-2 hover:bg-muted rounded-full transition-colors">
