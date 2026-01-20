@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Star, MapPin, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ShopStatus, { ShopStatusType } from "./ShopStatus";
 import AppointmentBookingModal from "./AppointmentBookingModal";
 
 interface FeaturedBusinessCardProps {
+  id?: string;
   name: string;
   category: string;
   rating: number;
@@ -16,6 +18,7 @@ interface FeaturedBusinessCardProps {
 }
 
 const FeaturedBusinessCard = ({
+  id,
   name,
   category,
   rating,
@@ -25,7 +28,13 @@ const FeaturedBusinessCard = ({
   status,
   delay = 0,
 }: FeaturedBusinessCardProps) => {
+  const navigate = useNavigate();
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+
+  const handleViewProfile = () => {
+    const businessSlug = id || name.toLowerCase().replace(/\s+/g, "-");
+    navigate(`/business/${businessSlug}`);
+  };
 
   return (
     <>
@@ -70,10 +79,15 @@ const FeaturedBusinessCard = ({
           </div>
 
           <div className="flex gap-2">
-            <Button variant="hero-outline" size="sm" className="flex-1">
+            <Button 
+              variant="hero-outline" 
+              size="sm" 
+              className="flex-1"
+              onClick={handleViewProfile}
+            >
               View Profile
             </Button>
-            <Button 
+            <Button
               variant="hero" 
               size="sm" 
               className="flex-1"

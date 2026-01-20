@@ -3,6 +3,7 @@ import FeaturedBusinessCard from "./FeaturedBusinessCard";
 import { ShopStatusType } from "./ShopStatus";
 
 const featuredBusinesses: Array<{
+  id: string;
   name: string;
   category: string;
   rating: number;
@@ -12,6 +13,7 @@ const featuredBusinesses: Array<{
   status: ShopStatusType;
 }> = [
   {
+    id: "glamour-studio",
     name: "Serenity Wellness Spa",
     category: "Hair Salon & Spa",
     rating: 4.9,
@@ -21,6 +23,7 @@ const featuredBusinesses: Array<{
     status: "open",
   },
   {
+    id: "wellness-clinic",
     name: "Dr. Smith's Family Clinic",
     category: "Clinic",
     rating: 4.8,
@@ -30,6 +33,7 @@ const featuredBusinesses: Array<{
     status: "busy",
   },
   {
+    id: "bella-italia",
     name: "Bella Italia Ristorante",
     category: "Italian Cuisine",
     rating: 4.7,
@@ -39,6 +43,7 @@ const featuredBusinesses: Array<{
     status: "closed",
   },
   {
+    id: "zen-yoga",
     name: "Zen Yoga Studio",
     category: "Yoga & Meditation",
     rating: 4.9,
