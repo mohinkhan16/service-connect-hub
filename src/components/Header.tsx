@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { MapPin, Menu } from "lucide-react";
+import { MapPin, Menu, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -35,7 +35,14 @@ const Header = () => {
           {isLoading ? (
             <div className="h-8 w-24 bg-muted animate-pulse rounded" />
           ) : user ? (
-            <RoleSwitcher />
+            <>
+              <Button variant="ghost" size="icon" asChild>
+                <Link to="/chat">
+                  <MessageCircle className="h-5 w-5" />
+                </Link>
+              </Button>
+              <RoleSwitcher />
+            </>
           ) : (
             <>
               <Button variant="ghost" size="sm" asChild>
@@ -66,7 +73,13 @@ const Header = () => {
             <a href="#how-it-works" className="text-sm font-medium py-2">How it Works</a>
             <div className="flex gap-3 pt-3 border-t border-border">
               {user ? (
-                <div className="w-full">
+                <div className="w-full flex items-center gap-3">
+                  <Button variant="ghost" size="sm" className="flex-1" asChild>
+                    <Link to="/chat">
+                      <MessageCircle className="h-4 w-4 mr-2" />
+                      Chats
+                    </Link>
+                  </Button>
                   <RoleSwitcher />
                 </div>
               ) : (
