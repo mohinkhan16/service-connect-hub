@@ -1,4 +1,5 @@
 import { LucideIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 interface CategoryCardProps {
@@ -10,11 +11,31 @@ interface CategoryCardProps {
   delay?: number;
 }
 
+// Map category titles to business IDs
+const categoryToBusinessMap: Record<string, string> = {
+  "Clinic": "wellness-clinic",
+  "Hair Salon & Spa": "glamour-studio",
+  "Yoga & Meditation": "zen-yoga",
+  "Italian Cuisine": "bella-italia",
+  "Restaurants": "bella-italia",
+  "Repair & Service": "glamour-studio",
+  "Local Wholesalers": "glamour-studio",
+  "Home Businesses": "glamour-studio",
+};
+
 const CategoryCard = ({ title, description, icon: Icon, colorClass, businessCount, delay = 0 }: CategoryCardProps) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    const businessId = categoryToBusinessMap[title] || "glamour-studio";
+    navigate(`/business/${businessId}`);
+  };
+
   return (
     <div 
       className="category-card bg-card border border-border/50 cursor-pointer group animate-fade-in-up"
       style={{ animationDelay: `${delay}s` }}
+      onClick={handleClick}
     >
       <div className={cn("category-icon", colorClass)}>
         <Icon className="h-7 w-7" />
