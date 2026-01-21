@@ -17,10 +17,10 @@ const categoryToBusinessMap: Record<string, string> = {
   "Hair Salon & Spa": "glamour-studio",
   "Yoga & Meditation": "zen-yoga",
   "Italian Cuisine": "bella-italia",
-  "Restaurants": "bella-italia",
-  "Repair & Service": "glamour-studio",
-  "Local Wholesalers": "glamour-studio",
-  "Home Businesses": "glamour-studio",
+  "Restaurants": "spice-junction",
+  "Repair & Service": "quick-fix-repairs",
+  "Local Wholesalers": "sharma-wholesale",
+  "Home Businesses": "meera-home-kitchen",
 };
 
 const CategoryCard = ({ title, description, icon: Icon, colorClass, businessCount, delay = 0 }: CategoryCardProps) => {
