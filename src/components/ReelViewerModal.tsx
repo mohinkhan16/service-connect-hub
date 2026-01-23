@@ -27,37 +27,43 @@ const ReelViewerModal = ({ isOpen, onClose, post }: ReelViewerModalProps) => {
   const [showComments, setShowComments] = useState(false);
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl w-full h-[90vh] p-0 bg-black border-none overflow-hidden">
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent 
+        hideCloseButton 
+        className="max-w-4xl w-[95vw] h-[90vh] p-0 bg-black border-none overflow-hidden"
+      >
         <div className="relative w-full h-full flex">
           {/* Video/Image Container */}
           <div className="relative flex-1 flex items-center justify-center bg-black">
             {/* Close Button */}
             <button 
-              onClick={onClose}
+              onClick={(e) => {
+                e.stopPropagation();
+                onClose();
+              }}
               className="absolute top-4 left-4 z-50 p-2 bg-black/50 rounded-full hover:bg-black/70 transition-colors"
             >
               <X className="h-6 w-6 text-white" />
             </button>
 
             {/* Video/Image */}
-            <div className="relative w-full h-full">
+            <div className="relative w-full h-full flex items-center justify-center">
               <img
                 src={post.image}
                 alt={post.caption}
-                className="w-full h-full object-contain"
+                className="max-w-full max-h-full object-contain"
               />
               
               {/* Play/Pause Overlay */}
               <button 
                 onClick={() => setIsPlaying(!isPlaying)}
-                className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 hover:opacity-100 transition-opacity"
+                className="absolute inset-0 flex items-center justify-center bg-black/10 opacity-0 hover:opacity-100 transition-opacity"
               >
-                <div className="w-20 h-20 rounded-full bg-white/90 flex items-center justify-center">
+                <div className="w-20 h-20 rounded-full bg-white/90 flex items-center justify-center shadow-xl">
                   {isPlaying ? (
-                    <Pause className="h-10 w-10 text-foreground" />
+                    <Pause className="h-10 w-10 text-black" />
                   ) : (
-                    <Play className="h-10 w-10 text-foreground ml-1" />
+                    <Play className="h-10 w-10 text-black ml-1" />
                   )}
                 </div>
               </button>
@@ -153,7 +159,7 @@ const ReelViewerModal = ({ isOpen, onClose, post }: ReelViewerModalProps) => {
 
           {/* Comments Panel */}
           {showComments && (
-            <div className="w-96 bg-card border-l border-border flex flex-col">
+            <div className="w-80 md:w-96 bg-card border-l border-border flex flex-col">
               <div className="p-4 border-b border-border">
                 <h3 className="font-semibold">Comments</h3>
               </div>
