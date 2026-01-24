@@ -1,8 +1,10 @@
 import PostCard from "./PostCard";
 import { Button } from "@/components/ui/button";
-import { Film, Grid3X3 } from "lucide-react";
+import { Film, Grid3X3, Plus } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import CreatePostModal from "./CreatePostModal";
+import { useAuth } from "@/contexts/AuthContext";
 
 import { ShopStatusType } from "./ShopStatus";
 
@@ -12,6 +14,7 @@ const posts: Array<{
   businessAvatar: string;
   category: string;
   image: string;
+  videoUrl?: string;
   caption: string;
   likes: number;
   comments: number;
@@ -36,6 +39,7 @@ const posts: Array<{
     businessAvatar: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=100&h=100&fit=crop&crop=faces",
     category: "Italian Cuisine",
     image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=600&fit=crop",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
     caption: "Fresh out of the oven! Our wood-fired Margherita pizza with imported Italian ingredients 🍕🇮🇹",
     likes: 567,
     comments: 42,
@@ -48,6 +52,7 @@ const posts: Array<{
     businessAvatar: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=100&h=100&fit=crop&crop=faces",
     category: "Yoga & Meditation",
     image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&h=600&fit=crop",
+    videoUrl: "https://www.w3schools.com/html/movie.mp4",
     caption: "Morning flow session with our expert instructors. Join our sunrise yoga class! 🧘‍♀️🌅",
     likes: 189,
     comments: 23,
@@ -84,6 +89,7 @@ const posts: Array<{
     businessAvatar: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=100&h=100&fit=crop&crop=faces",
     category: "Home Business",
     image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&h=600&fit=crop",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
     caption: "Custom cakes for all occasions! Order your birthday cake today 🎂✨ Free delivery within 5km",
     likes: 312,
     comments: 56,
@@ -93,7 +99,9 @@ const posts: Array<{
 ];
 
 const PostsReelsSection = () => {
+  const { user } = useAuth();
   const [filter, setFilter] = useState<"all" | "posts" | "reels">("all");
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   const filteredPosts = posts.filter((post) => {
     if (filter === "all") return true;
@@ -115,43 +123,54 @@ const PostsReelsSection = () => {
             </p>
           </div>
           
-          {/* Filter Tabs */}
-          <div className="flex items-center gap-2 bg-card border border-border rounded-xl p-1">
-            <button
-              onClick={() => setFilter("all")}
-              className={cn(
-                "px-4 py-2 text-sm font-medium rounded-lg transition-all",
-                filter === "all" 
-                  ? "gradient-warm text-primary-foreground" 
-                  : "text-muted-foreground hover:text-foreground"
-              )}
+          <div className="flex items-center gap-3">
+            {/* Create Post Button */}
+            <Button 
+              onClick={() => setShowCreateModal(true)}
+              className="gradient-warm"
             >
-              All
-            </button>
-            <button
-              onClick={() => setFilter("posts")}
-              className={cn(
-                "flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all",
-                filter === "posts" 
-                  ? "gradient-warm text-primary-foreground" 
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <Grid3X3 className="h-4 w-4" />
-              Posts
-            </button>
-            <button
-              onClick={() => setFilter("reels")}
-              className={cn(
-                "flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all",
-                filter === "reels" 
-                  ? "gradient-warm text-primary-foreground" 
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <Film className="h-4 w-4" />
-              Reels
-            </button>
+              <Plus className="h-4 w-4 mr-2" />
+              Create Post
+            </Button>
+
+            {/* Filter Tabs */}
+            <div className="flex items-center gap-2 bg-card border border-border rounded-xl p-1">
+              <button
+                onClick={() => setFilter("all")}
+                className={cn(
+                  "px-4 py-2 text-sm font-medium rounded-lg transition-all",
+                  filter === "all" 
+                    ? "gradient-warm text-primary-foreground" 
+                    : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                All
+              </button>
+              <button
+                onClick={() => setFilter("posts")}
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all",
+                  filter === "posts" 
+                    ? "gradient-warm text-primary-foreground" 
+                    : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                <Grid3X3 className="h-4 w-4" />
+                Posts
+              </button>
+              <button
+                onClick={() => setFilter("reels")}
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all",
+                  filter === "reels" 
+                    ? "gradient-warm text-primary-foreground" 
+                    : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                <Film className="h-4 w-4" />
+                Reels
+              </button>
+            </div>
           </div>
         </div>
 
@@ -173,6 +192,12 @@ const PostsReelsSection = () => {
           </Button>
         </div>
       </div>
+
+      {/* Create Post Modal */}
+      <CreatePostModal 
+        isOpen={showCreateModal} 
+        onClose={() => setShowCreateModal(false)} 
+      />
     </section>
   );
 };
