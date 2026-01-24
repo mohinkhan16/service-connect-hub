@@ -1,6 +1,6 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { X, Heart, MessageCircle, Share2, Bookmark, Volume2, VolumeX, Play, Pause } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import CommentsSection from "./CommentsSection";
 
@@ -13,6 +13,7 @@ interface ReelViewerModalProps {
     businessAvatar: string;
     category: string;
     image: string;
+    videoUrl?: string;
     caption: string;
     likes: number;
     comments: number;
@@ -25,6 +26,27 @@ const ReelViewerModal = ({ isOpen, onClose, post }: ReelViewerModalProps) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const hasVideo = post.videoUrl && post.videoUrl.length > 0;
+
+  const togglePlayPause = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+    }
+    setIsMuted(!isMuted);
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -48,15 +70,30 @@ const ReelViewerModal = ({ isOpen, onClose, post }: ReelViewerModalProps) => {
 
             {/* Video/Image */}
             <div className="relative w-full h-full flex items-center justify-center">
-              <img
-                src={post.image}
-                alt={post.caption}
-                className="max-w-full max-h-full object-contain"
-              />
+              {hasVideo ? (
+                <video
+                  ref={videoRef}
+                  src={post.videoUrl}
+                  poster={post.image}
+                  className="max-w-full max-h-full object-contain"
+                  autoPlay
+                  loop
+                  muted={isMuted}
+                  playsInline
+                  onPlay={() => setIsPlaying(true)}
+                  onPause={() => setIsPlaying(false)}
+                />
+              ) : (
+                <img
+                  src={post.image}
+                  alt={post.caption}
+                  className="max-w-full max-h-full object-contain"
+                />
+              )}
               
               {/* Play/Pause Overlay */}
               <button 
-                onClick={() => setIsPlaying(!isPlaying)}
+                onClick={togglePlayPause}
                 className="absolute inset-0 flex items-center justify-center bg-black/10 opacity-0 hover:opacity-100 transition-opacity"
               >
                 <div className="w-20 h-20 rounded-full bg-white/90 flex items-center justify-center shadow-xl">
@@ -93,16 +130,18 @@ const ReelViewerModal = ({ isOpen, onClose, post }: ReelViewerModalProps) => {
               </div>
 
               {/* Volume Control */}
-              <button 
-                onClick={() => setIsMuted(!isMuted)}
-                className="absolute bottom-20 right-4 p-2 bg-black/50 rounded-full hover:bg-black/70 transition-colors"
-              >
-                {isMuted ? (
-                  <VolumeX className="h-5 w-5 text-white" />
-                ) : (
-                  <Volume2 className="h-5 w-5 text-white" />
-                )}
-              </button>
+              {hasVideo && (
+                <button 
+                  onClick={toggleMute}
+                  className="absolute bottom-20 right-4 p-2 bg-black/50 rounded-full hover:bg-black/70 transition-colors"
+                >
+                  {isMuted ? (
+                    <VolumeX className="h-5 w-5 text-white" />
+                  ) : (
+                    <Volume2 className="h-5 w-5 text-white" />
+                  )}
+                </button>
+              )}
             </div>
 
             {/* Side Actions */}

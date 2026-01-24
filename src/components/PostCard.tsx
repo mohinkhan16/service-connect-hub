@@ -12,6 +12,7 @@ interface PostCardProps {
   businessAvatar: string;
   category: string;
   image: string;
+  videoUrl?: string;
   caption: string;
   likes: number;
   comments: number;
@@ -26,6 +27,7 @@ const PostCard = ({
   businessAvatar,
   category,
   image,
+  videoUrl,
   caption,
   likes,
   comments,
@@ -206,6 +208,7 @@ const PostCard = ({
             businessAvatar,
             category,
             image,
+            videoUrl,
             caption,
             likes,
             comments,
